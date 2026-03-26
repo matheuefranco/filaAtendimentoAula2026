@@ -13,8 +13,13 @@ function adicionarElemento() {
 }
 
   function mostrarFila(){
-    const filaElemento = document.getElementById("lblPessoasFila");
-    filaElemento.textContent = minhaFila.toString();
+    const filaElemento = document.getElementById("listFila");
+    filaElemento.innerHTML="";
+    for(let item of minhaFila){
+      const listItem = document.createElement("li");
+      listItem.textContent = item;
+      filaElemento.appendChild(listItem);
+    }
   }
 
     function removerElemento(){
@@ -27,4 +32,20 @@ function adicionarElemento() {
       }
 
   }
+
+  function buscarElemento(){
+    const busca = document.getElementById("txtnovoNome");
+    let encontrado = false;
+    for(let item of minhaFila){
+       if(busca.value=== item){
+        alert("Encontrado na fila");
+        encontrado = true;
+       }
+    }
+    if(!encontrado)
+      alert("Pessoa não está na fila");
+
+  }// fim funcao busca
+
+
 

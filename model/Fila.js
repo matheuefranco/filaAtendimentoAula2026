@@ -12,11 +12,7 @@ class Fila {
   }
 
   isFull() {
-    /*if(this.#fim===this.#elementos.length-1)
-        return true;
-    else
-        return false;*/
-    return this.#fim === this.#elementos.length - 1;
+    return this.#qtd === this.#elementos.length;
   }
 
   isEmpty() {
@@ -25,14 +21,16 @@ class Fila {
 
   enqueue(elemento) {
     if (!this.isFull()) {
-      //if(#fim===#elementos.length - 1) fim =0;
-      //else
-        this.#fim++;
+      if (this.#fim === this.#elementos.length - 1)
+        // se o fim esta na ultima posicao
+        this.#fim = 0;
+      else this.#fim++;
       this.#elementos[this.#fim] = elemento;
       this.#qtd++;
       console.log(
         `enqueue: início=${this.#inicio}, fim=${this.#fim}, qtd=${this.#qtd}`,
       );
+      console.log(this.#elementos);
       return true;
     }
     return false;
@@ -41,14 +39,14 @@ class Fila {
   dequeue() {
     if (!this.isEmpty()) {
       let removido = this.#elementos[this.#inicio];
-      //if(#inicio===#elementos.length - 1) inicio=0;
-      //else
-      this.#inicio++;
+      if (this.#inicio === this.#elementos.length - 1) this.#inicio = 0;
+      else this.#inicio++;
       this.#qtd--;
       console.log(`Removido:${removido}`);
       console.log(
         `dequeue: início=${this.#inicio}, fim=${this.#fim}, qtd=${this.#qtd}`,
       );
+      console.log(this.#elementos);
       return removido;
     }
     return null;
@@ -61,9 +59,32 @@ class Fila {
   //last
   toString() {
     let resultado = "";
-    for (let i = this.#inicio; i <= this.#fim; i++) {
+    let i = this.#inicio;
+    for (let cont = 0; cont < this.#qtd; cont++) {
       resultado += `${this.#elementos[i]} | `;
+      if (i === this.#elementos.length - 1) i = 0;
+      else i++;
     }
     return resultado;
   }
-}
+
+  [Symbol.iterator]() {
+    let count = 0;
+    let i = this.#inicio;
+    const qtd = this.#qtd;
+    const elementos = this.#elementos;
+    const tamanho = elementos.length;
+    return {
+      next() {
+        if (count < qtd) {
+          const value = elementos[i];
+          i = (i + 1) % tamanho;
+          count++;
+          return { value, done: false };
+        } else {
+          return { done: true };
+        }
+      },
+    };
+  }
+} // fim classe
