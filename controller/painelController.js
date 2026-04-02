@@ -1,0 +1,8 @@
+function atualizarUltimoAtendimento(){
+    //todo
+
+}
+
+atualizarUltimoAtendimento();
+
+

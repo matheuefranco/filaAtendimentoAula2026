@@ -2,11 +2,17 @@
 const minhaFila = new Fila(5);
 
 function adicionarElemento() {
-  const novoElemento = document.getElementById("txtnovoNome");
-  if (minhaFila.enqueue(novoElemento.value)) {
+  const nome = document.getElementById("txtnovoNome");
+  const cpf = document.getElementById("txtnovoCPF");
+  const data = obterDataAtual();
+  const hora = obterHoraAtual();
+  const novoAtendimento = 
+    new Atendimento(nome.value,cpf.value,data,hora);
+  if (minhaFila.enqueue(novoAtendimento)) {
     mostrarFila(); // mostrar a fila
-    novoElemento.value=""; // clear input
-    novoElemento.focus();
+    nome.value=""; // clear input
+    cpf.value = "";
+    nome.focus();
   } else {
     alert("Fila cheia!");
   }
@@ -34,10 +40,10 @@ function adicionarElemento() {
   }
 
   function buscarElemento(){
-    const busca = document.getElementById("txtnovoNome");
+    const busca = document.getElementById("txtnovoCPF");
     let encontrado = false;
-    for(let item of minhaFila){
-       if(busca.value=== item){
+    for(let atendimento of minhaFila){
+       if(busca.value=== atendimento.cpf){
         alert("Encontrado na fila");
         encontrado = true;
        }

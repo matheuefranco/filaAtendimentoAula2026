@@ -8,7 +8,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link rel="stylesheet" href="style.css" />
     <script src="model/Fila.js"> </script>
+    <script src="model/Atendimento.js"></script>
+    <script src="utils.js"> </script>
     <script src="controller/filaController.js"></script>
+
 
 
   </head>
@@ -24,6 +27,10 @@
           <label for="novoNome">Nome:</label>
           <br />
           <input type="text" class="form-control" id="txtnovoNome" placeholder="Digite o nome" />
+        <br />
+          <label for="novoCPF">CPF:</label>
+          <br />
+          <input type="text" class="form-control" id="txtnovoCPF" placeholder="Digite o CPF" />
         <br />
         <button class="btn btn-primary" onclick="adicionarElemento()">Adicionar à fila</button>
         <button class="btn btn-success" onclick="removerElemento()">Atender</button>
