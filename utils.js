@@ -26,3 +26,39 @@ function calcularDiferencaHoras(hora1, hora2) {
     const segundos = diferencaSegundos % 60;
     return `${horas.toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
 }
+
+function calcularIdade(dataBR) {
+  // Espera formato dd/mm/aaaa
+  if (typeof dataBR !== "string") return null;
+
+  dataBR = dataBR.trim();
+  const match = dataBR.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  if (!match) return null; // formato inválido
+
+  const dia = parseInt(match[1], 10);
+  const mes = parseInt(match[2], 10) - 1; // Date usa mês 0-11
+  const ano = parseInt(match[3], 10);
+
+  const nascimento = new Date(ano, mes, dia);
+
+  // valida data real (ex.: 31/02/2020 deve falhar)
+  if (
+    nascimento.getFullYear() !== ano ||
+    nascimento.getMonth() !== mes ||
+    nascimento.getDate() !== dia
+  ) {
+    return null;
+  }
+
+  const hoje = new Date();
+  let idade = hoje.getFullYear() - ano;
+
+  const fezAniversarioEsteAno =
+    hoje.getMonth() > mes ||
+    (hoje.getMonth() === mes && hoje.getDate() >= dia);
+
+  if (!fezAniversarioEsteAno) idade--;
+
+  return idade;
+}
+

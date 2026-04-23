@@ -1,21 +1,28 @@
 
-const minhaFila = new Fila(5);
+const minhaFila = new FilaEncadeada();
+const minhaFilaPrioritaria = new FilaEncadeada();
 
 function adicionarElemento() {
   const nome = document.getElementById("txtnovoNome");
   const cpf = document.getElementById("txtnovoCPF");
+  const dataNascimento = document.getElementById("txtnovaData");
+  const idade = calcularIdade(dataNascimento.value);
+  console.log(`Idade calculada:${idade}`);
   const data = obterDataAtual();
   const hora = obterHoraAtual();
   const novoAtendimento = 
     new Atendimento(nome.value,cpf.value,data,hora);
-  if (minhaFila.enqueue(novoAtendimento)) {
-    mostrarFila(); // mostrar a fila
-    nome.value=""; // clear input
-    cpf.value = "";
-    nome.focus();
-  } else {
-    alert("Fila cheia!");
-  }
+  
+  if(idade>=60)
+    minhaFilaPrioritaria.enqueue(novoAtendimento);
+  else  
+   minhaFila.enqueue(novoAtendimento);
+  
+  mostrarFila(); // mostrar a fila
+  nome.value=""; // clear input
+  cpf.value = "";
+  nome.focus();
+
 }
 
   function mostrarFila(){
@@ -25,6 +32,14 @@ function adicionarElemento() {
       const listItem = document.createElement("li");
       listItem.textContent = item;
       filaElemento.appendChild(listItem);
+    }
+
+    const filaElementoPriridade = document.getElementById("listFilaPrioridade");
+    filaElementoPriridade.innerHTML="";
+    for(let item of minhaFilaPrioritaria){
+      const listItem = document.createElement("li");
+      listItem.textContent = item;
+      filaElementoPriridade.appendChild(listItem);
     }
   }
 
