@@ -1,6 +1,7 @@
 
 const minhaFila = new FilaEncadeada();
 const minhaFilaPrioritaria = new FilaEncadeada();
+let contRemovido = 0;
 
 function adicionarElemento() {
   const nome = document.getElementById("txtnovoNome");
@@ -43,15 +44,28 @@ function adicionarElemento() {
     }
   }
 
-    function removerElemento(){
-      let removido = minhaFila.dequeue();
-      if(removido===null)
-        alert("Fila vazia");
-      else{
-        alert("Atendido:"+removido);
-        mostrarFila();
-      }
 
+  function removerElemento(){
+
+    let removido = null;
+    if (!minhaFilaPrioritaria.isEmpty() && contRemovido < 3) {
+      removido = minhaFilaPrioritaria.dequeue();
+      contRemovido++;
+    } else if (!minhaFila.isEmpty()) {
+      removido = minhaFila.dequeue();
+      contRemovido = 0;
+    } else if (!minhaFilaPrioritaria.isEmpty()) {
+      // Se a fila comum está vazia mas ainda há prioritários, continue atendendo prioritários
+      removido = minhaFilaPrioritaria.dequeue();
+      contRemovido = 1;
+    }
+
+    if(removido===null){
+      alert("Fila vazia");
+    }else{
+      alert("Atendido: "+removido);
+      mostrarFila();
+    }
   }
 
   function buscarElemento(){
@@ -63,8 +77,16 @@ function adicionarElemento() {
         encontrado = true;
        }
     }
+
+    for(let atendimento of minhaFilaPrioritaria){
+       if(busca.value=== atendimento.cpf){
+        alert("Encontrado na fila - "+ atendimento);
+        encontrado = true;
+       }
+    }
+
     if(!encontrado)
-      alert("Pessoa não está na fila");
+      alert("Pessoa não está na fila - "+ atendimento);
 
   }// fim funcao busca
 
